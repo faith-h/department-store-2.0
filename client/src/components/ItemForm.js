@@ -2,6 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import { Form, Header, } from 'semantic-ui-react';
 
+// left off here, all that's left to do is get edit working for items
+
 class ItemForm extends React.Component {
   defaultValues = { name: "", desc: "", price: "", };
   state = { ...this.defaultValues, };
@@ -13,10 +15,11 @@ class ItemForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { id, } = this.props.match.params;
     const item = { ...this.state, };
-    axios.post("/api/items", item)
+    axios.post(`/api/departments/${id}/items`, item)
     .then( res => {
-      this.props.history.push("/items");
+      this.props.history.push(`/${id}}/items`);
     });
     this.setState({ ...this.defaultValues, });
   };

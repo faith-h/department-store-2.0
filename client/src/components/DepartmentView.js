@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+// import Items from './Items';
 import { Link, } from 'react-router-dom';
 import { Header, Button, Segment, Card, } from 'semantic-ui-react';
 
@@ -18,38 +19,45 @@ class DepartmentView extends React.Component {
     //items array
     axios.get(`/api/departments/${id}/items`)
     .then( res => {
-      this.setState({ items: res.data });
+      this.setState({ items: res.data, });
+    });
+  };
+
+  updateItem = (id) => {
+    debugger;
+    axios.put(`/api/departments/${this.state.department.id}/items/${this.state.item.id}`, )
+    .then( res => {
+      const items = this.state.items.map(item => {
+        if (item.id === id)
+        return res.data;
+        return item;
+      });
+      this.setState({ items, })
     });
   };
 
   deleteItem = (id) => {
-    axios.delete(`/api/departments/${id}/items/${this.state.items.id}`)
-      .then( res => {
+    axios.delete(`/api/departments/${this.state.department.id}/items/${id}`)
+    .then( res => {
         this.setState({ items: this.state.items.filter(item =>
         item.id !== id), })
       });
   };
 
   renderItems = () => {
-    const { items, } = this.state;
-
-
-    // left off here filling in functionality for items
-    // have yet to complete edit for departmentts (makes new department instead)
-
-    return items.map( item => (
-      <Card>
+    return this.state.items.map( item => (
+      <Card key={item.id}>
       <Card.Content>
         <Card.Header> { item.name } </Card.Header>
         <Card.Meta> ${ item.price } </Card.Meta>
         <Card.Description> { item.desc } </Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <div className="ui three buttons">
-        <Button basic color="blue">
+        <div className="ui two buttons">
+        <Button basic color="blue" as={Link} to={`/departments/${this.state.department.id}/items/${item.id}/edit`} >
           Edit
         </Button>
-        <Button basic color="red" onClick={ () => this.deleteItem() }>
+        <Button basic color="red" onClick={ () => this.deleteItem(item.id) } >
           Delete
         </Button>
         </div>
@@ -65,13 +73,14 @@ class DepartmentView extends React.Component {
       <div>
         <Segment>
           <Header as="h1">{name}</Header>
-          <Button as={Link} basic color="green" to={`/api/departments/${this.state.department.id}/items`}>
+          <Button as={Link} basic color="green" to={`/api/departments/${this.state.department.id}/items/new`}>
           New Item
           </Button>
           <br />
           <br />
           <Card.Group>
-            {this.renderItems()}
+            { this.renderItems() }
+            {/* <Items items={this.state.items}  delete={this.deleteItem()} /> */}
           </Card.Group>
         </Segment>
         <Button

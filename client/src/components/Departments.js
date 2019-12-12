@@ -1,7 +1,8 @@
 import axios from 'axios';
+import HeaderText from '../styles/HeaderText'
 import React from "react";
 import { Link, } from 'react-router-dom';
-import { Button, Card, Header,  } from 'semantic-ui-react';
+import { Button, Card, } from 'semantic-ui-react';
 
 class Departments extends React.Component {
   state = {departments: []} ;
@@ -53,7 +54,7 @@ class Departments extends React.Component {
         <Button as={Link} to={`/departments/${department.id}/edit`} basic color="blue">
           Edit
           </Button>
-        <Button basic color="red" onClick={() => this.deleteDepartment(department.id)}>
+        <Button basic color="red" onClick={() => this.deleteDepartment()}>
           Delete
           </Button>
           </div>
@@ -65,10 +66,15 @@ class Departments extends React.Component {
   render () {
     return (
       <div>
-        <Header as="h1"> Departments </Header>
+        <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Arimo"></link>
+        <HeaderText> Departments 
+          <div></div>
+          <br />
         <Button as={Link} basic color="green" to="/departments/new">
           New Department
           </Button>
+          </HeaderText>
           <br />
           <br />
         <Card.Group>

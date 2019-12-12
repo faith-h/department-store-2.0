@@ -2,8 +2,8 @@
   department = Department.create(
     name: Faker::Commerce.department
   )
-  6.times do
-  Item.create(
+  5.times do
+  department.items.create(
     name: Faker::Commerce.product_name,
     price: Faker::Commerce.price.to_f,
     desc: Faker::Lorem.sentence,
